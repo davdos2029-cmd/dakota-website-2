@@ -4,14 +4,16 @@ import { FilterState } from '../types';
 
 interface HeroProps {
   onSearch: (filters: Partial<FilterState>) => void;
-  onTalkToAgent: () => void;
-  onExploreProperties: () => void;
+  onTalkToAgent?: () => void;
+  onExploreProperties?: () => void;
+  onExploreLand?: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
   onSearch,
-  onTalkToAgent,
-  onExploreProperties,
+  onTalkToAgent = () => {},
+  onExploreProperties = () => {},
+  onExploreLand = () => {},
 }) => {
   const [propertyType, setPropertyType] = useState('All');
   const [location, setLocation] = useState('All');

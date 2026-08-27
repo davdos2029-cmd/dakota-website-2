@@ -127,11 +127,14 @@ export default function App() {
     <div className="min-h-screen bg-[#F7F4EE] text-[#252826] flex flex-col font-sans selection:bg-[#B49A63] selection:text-[#10241E]">
       {/* Sticky Navigation */}
       <Navbar
+        savedProperties={savedProperties}
         savedCount={savedProperties.length}
         onOpenSaved={() => setIsSavedDrawerOpen(true)}
         onOpenCalculator={() => setIsCalcModalOpen(true)}
         onNavigateSection={scrollToSection}
+        onFilterByCategory={handleCategorySelect}
         onFilterCategory={handleCategorySelect}
+        onOpenContact={() => scrollToSection('contact')}
       />
 
       {/* Main Page Layout Flow */}
@@ -140,6 +143,8 @@ export default function App() {
         <Hero
           onSearch={handleHeroSearch}
           onExploreLand={() => handleCategorySelect('Farm & Ranch')}
+          onExploreProperties={() => scrollToSection('properties')}
+          onTalkToAgent={() => scrollToSection('contact')}
         />
 
         {/* 2. Editorial Property Category Cards */}

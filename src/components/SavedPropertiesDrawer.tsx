@@ -14,7 +14,7 @@ interface SavedPropertiesDrawerProps {
 
 export const SavedPropertiesDrawer: React.FC<SavedPropertiesDrawerProps> = ({
   isOpen,
-  savedProperties,
+  savedProperties = [],
   onClose,
   onSelectProperty,
   onRemoveSaved,

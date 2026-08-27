@@ -3,11 +3,15 @@ import { Star, Quote, ChevronLeft, ChevronRight, MessageSquare } from 'lucide-re
 import { Testimonial } from '../types';
 
 interface TestimonialsSectionProps {
-  testimonials: Testimonial[];
+  testimonials?: Testimonial[];
 }
 
-export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials }) => {
+export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testimonials = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!testimonials || testimonials.length === 0) {
+    return null;
+  }
 
   const nextTestimonial = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -17,7 +21,8 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ testim
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  const current = testimonials[currentIndex];
+  const current = testimonials[currentIndex] || testimonials[0];
+  if (!current) return null;
 
   return (
     <section id="testimonials" className="py-20 lg:py-32 bg-[#F7F4EE] relative overflow-hidden">

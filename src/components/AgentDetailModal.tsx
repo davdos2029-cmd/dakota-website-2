@@ -14,8 +14,8 @@ interface AgentDetailModalProps {
 
 export const AgentDetailModal: React.FC<AgentDetailModalProps> = ({
   agent,
-  properties,
-  savedProperties,
+  properties = [],
+  savedProperties = [],
   onClose,
   onToggleSave,
   onSelectProperty,
@@ -28,7 +28,9 @@ export const AgentDetailModal: React.FC<AgentDetailModalProps> = ({
   const [messageBody, setMessageBody] = useState('');
   const [sent, setSent] = useState(false);
 
-  const agentProperties = properties.filter((p) => agent.activeListings.includes(p.id));
+  const agentProperties = (properties || []).filter(
+    (p) => agent.activeListings && agent.activeListings.includes(p.id)
+  );
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +38,7 @@ export const AgentDetailModal: React.FC<AgentDetailModalProps> = ({
     setSent(true);
   };
 
-  const isPropertySaved = (id: string) => savedProperties.some((p) => p.id === id);
+  const isPropertySaved = (id: string) => (savedProperties || []).some((p) => p.id === id);
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-fadeIn">

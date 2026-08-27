@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Heart, Menu, X, ChevronDown, Compass, Home, MapPin, Building2, Trees, Waves } from 'lucide-react';
+import { Phone, Heart, Menu, X, ChevronDown, Compass, Home, MapPin, Building2, Trees, Waves, Calculator } from 'lucide-react';
 import { Property } from '../types';
 
 interface NavbarProps {
-  savedProperties: Property[];
+  savedProperties?: Property[];
+  savedCount?: number;
   onOpenSaved: () => void;
+  onOpenCalculator?: () => void;
   onNavigateSection: (sectionId: string) => void;
-  onFilterByCategory: (category: string) => void;
-  onOpenContact: () => void;
+  onFilterByCategory?: (category: string) => void;
+  onFilterCategory?: (category: string) => void;
+  onOpenContact?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  savedProperties,
+  savedProperties = [],
+  savedCount,
   onOpenSaved,
+  onOpenCalculator,
   onNavigateSection,
   onFilterByCategory,
-  onOpenContact,
+  onFilterCategory,
+  onOpenContact = () => {},
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [propertyDropdownOpen, setPropertyDropdownOpen] = useState(false);
+
+  const effectiveSavedCount = savedCount !== undefined ? savedCount : (savedProperties?.length || 0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +48,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleCategorySelect = (category: string) => {
-    onFilterByCategory(category);
+    const selectFn = onFilterByCategory || onFilterCategory;
+    if (selectFn) {
+      selectFn(category);
+    }
     setPropertyDropdownOpen(false);
     setMobileMenuOpen(false);
   };
@@ -236,6 +247,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden md:inline">(701) 364-1330</span>
             </a>
 
+            {/* Mortgage Calculator Trigger */}
+            {onOpenCalculator && (
+              <button
+                onClick={onOpenCalculator}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold tracking-wider uppercase rounded-sm border transition-colors ${
+                  isScrolled
+                    ? 'border-[#17352D]/20 text-[#17352D] hover:bg-[#E9E3D8]'
+                    : 'border-white/20 text-[#F7F4EE] hover:bg-white/10'
+                }`}
+                title="Mortgage & Payment Calculator"
+                aria-label="Open Mortgage Calculator"
+              >
+                <Calculator className="w-3.5 h-3.5 text-[#B49A63]" />
+                <span className="hidden lg:inline">Calculator</span>
+              </button>
+            )}
+
             {/* Saved Favorites Trigger */}
             <button
               onClick={onOpenSaved}
@@ -247,10 +275,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Saved Properties"
               aria-label="View Saved Properties"
             >
-              <Heart className={`w-5 h-5 ${savedProperties.length > 0 ? 'fill-[#B49A63] text-[#B49A63]' : ''}`} />
-              {savedProperties.length > 0 && (
+              <Heart className={`w-5 h-5 ${effectiveSavedCount > 0 ? 'fill-[#B49A63] text-[#B49A63]' : ''}`} />
+              {effectiveSavedCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-[#17352D] text-[#F7F4EE] border border-[#B49A63] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                  {savedProperties.length}
+                  {effectiveSavedCount}
                 </span>
               )}
             </button>
@@ -270,6 +298,19 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 lg:hidden">
+            {onOpenCalculator && (
+              <button
+                onClick={onOpenCalculator}
+                className={`p-2 rounded-sm ${
+                  isScrolled ? 'text-[#252826]' : 'text-[#F7F4EE]'
+                }`}
+                title="Calculator"
+                aria-label="Open Mortgage Calculator"
+              >
+                <Calculator className="w-5 h-5 text-[#B49A63]" />
+              </button>
+            )}
+
             <button
               onClick={onOpenSaved}
               className={`relative p-2 rounded-sm ${
@@ -277,10 +318,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
               aria-label="View Saved Properties"
             >
-              <Heart className={`w-5 h-5 ${savedProperties.length > 0 ? 'fill-[#B49A63] text-[#B49A63]' : ''}`} />
-              {savedProperties.length > 0 && (
-                <span className="absolute 0 top-0 right-0 bg-[#17352D] text-[#F7F4EE] border border-[#B49A63] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                  {savedProperties.length}
+              <Heart className={`w-5 h-5 ${effectiveSavedCount > 0 ? 'fill-[#B49A63] text-[#B49A63]' : ''}`} />
+              {effectiveSavedCount > 0 && (
+                <span className="absolute top-0 right-0 bg-[#17352D] text-[#F7F4EE] border border-[#B49A63] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {effectiveSavedCount}
                 </span>
               )}
             </button>
@@ -368,6 +409,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           <div className="pt-4 border-t border-[#E9E3D8] space-y-3">
+            {onOpenCalculator && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenCalculator();
+                }}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-[#E9E3D8] text-[#17352D] font-semibold text-sm rounded-sm"
+              >
+                <Calculator className="w-4 h-4 text-[#B49A63]" />
+                Mortgage &amp; Payment Calculator
+              </button>
+            )}
             <a
               href="tel:7013641330"
               className="flex items-center justify-center gap-2 py-2.5 px-4 bg-[#E9E3D8] text-[#17352D] font-semibold text-sm rounded-sm"
