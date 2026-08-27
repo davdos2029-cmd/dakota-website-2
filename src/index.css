@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-forest: #17352d;
+    --color-forest-dark: #10241e;
+    --color-forest-light: #244e43;
+    --color-charcoal: #252826;
+    --color-ivory: #f7f4ee;
+    --color-sand: #e9e3d8;
+    --color-sand-light: #f2ede4;
+    --color-brass: #b49a63;
+    --color-brass-light: #c9b382;
+    --color-brass-dark: #967e49;
+  }
+
+  body {
+    font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f7f4ee;
+    color: #252826;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-serif-heading {
+    font-family: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+
+  .font-display {
+    font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  }
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f2ede4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c9b382;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #967e49;
+}
+
+/* Glass & editorial helpers */
+.editorial-shadow {
+  box-shadow: 0 10px 30px -10px rgba(23, 53, 45, 0.08), 0 4px 12px -4px rgba(0, 0, 0, 0.04);
+}
+
+.editorial-shadow-hover {
+  box-shadow: 0 20px 40px -15px rgba(23, 53, 45, 0.14), 0 8px 20px -6px rgba(0, 0, 0, 0.06);
+}
+
+.brass-border {
+  border-color: rgba(180, 154, 99, 0.35);
+}
+
+.brass-glow {
+  box-shadow: 0 0 20px -5px rgba(180, 154, 99, 0.3);
+}
+
+/* Image zoom smoothly */
+.zoom-image-container img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.zoom-image-container:hover img {
+  transform: scale(1.04);
+}
